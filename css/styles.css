@@ -1,0 +1,113 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'Mona-Sans';
+    src: url('../font/Mona-Sans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../font/Inter-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter Bold';
+    src: url('../font/Inter-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter Light';
+    src: url('../font/Inter-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #FFC0CB, #FFDAB9);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    width: 80%;
+}
+
+.header {
+    font-size: 3em;
+    text-transform: uppercase;
+}
+
+.sub-header {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.info {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.footer {
+    font-size: 0.8em;
+    margin-top: 40px;
+}
+
+.mona {
+    font-family: 'Mona-Sans', sans-serif;
+    font-weight: 900;
+}
+
+.inter {
+    font-family: "Inter var", sans-serif;
+}
+
+
+.overlays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    z-index: -1;
+}
+
+.overlay {
+    position: relative;
+    width: calc(100% / 12);
+    height: 100vh;
+    border-left: 1.3px solid #6c6c6c;
+    background-color: #3333332d;
+}
+
+.home-btn {
+    position: absolute;
+    top: 80px;
+    left: 80px;
+    font-size: 1.5em;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}

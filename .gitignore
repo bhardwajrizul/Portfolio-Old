@@ -1,0 +1,15 @@
+# Dependencies
+/node_modules
+
+# Parcel cache
+/.parcel-cache
+
+# Production build folder
+/dist
+
+# Optional - Environment variables
+.env
+
+# Optional - Editor directories and files
+.idea
+*.sublime-workspace
