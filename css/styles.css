@@ -1,76 +1,82 @@
-*, *::before, *::after {
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Prompt:wght@400;500;600;700;900&display=swap');
+/* 
+font-family: 'Anton', sans-serif;
+font-family: 'Bebas Neue', sans-serif;
+font-family: 'Prompt', sans-serif; // 500 600 700 900
+*/
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-@font-face {
-    font-family: 'Mona-Sans';
-    src: url('../font/Mona-Sans.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+@keyframes moveInCircle {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-@font-face {
-    font-family: 'Inter';
-    src: url('../font/Inter-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+@keyframes moveVertical {
+    0% {
+        transform: translateY(-50%);
+    }
+
+    50% {
+        transform: translateY(50%);
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
 }
 
-@font-face {
-    font-family: 'Inter Bold';
-    src: url('../font/Inter-Bold.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+@keyframes moveHorizontal {
+    0% {
+        transform: translateX(-50%) translateY(-10%);
+    }
+
+    50% {
+        transform: translateX(50%) translateY(10%);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-10%);
+    }
 }
 
-@font-face {
-    font-family: 'Inter Light';
-    src: url('../font/Inter-Light.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+:root {
+    --color-bg1: rgb(235, 229, 215);
+    --color-bg2: rgb(227, 118, 100);
+    --color1: 222, 128, 110;
+    --color2: 235, 229, 215;
+    --color3: 183, 199, 204;
+    --color4: 226, 160, 117;
+    --color5: 227, 118, 100;
+    --color-interactive: 255, 128, 100;
+    --circle-size: 80%;
+    --blending: hard-light;
 }
-
-
 
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to right, #FFC0CB, #FFDAB9);
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-    height: 100vh;
-}
-
-.container {
-    text-align: center;
-    width: 80%;
-}
-
-.header {
-    font-size: 3em;
-    text-transform: uppercase;
-}
-
-.sub-header {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.info {
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.footer {
-    font-size: 0.8em;
-    margin-top: 40px;
+    color: #333;
 }
 
 .mona {
@@ -82,7 +88,6 @@ body {
     font-family: "Inter var", sans-serif;
 }
 
-
 .overlays {
     position: absolute;
     top: 0;
@@ -91,23 +96,196 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: row;
-    z-index: -1;
+    z-index: 1;
 }
 
 .overlay {
     position: relative;
     width: calc(100% / 12);
     height: 100vh;
-    border-left: 1.3px solid #6c6c6c;
-    background-color: #3333332d;
+    border-left: 1.2px solid rgb(188, 169, 158);
+}
+
+.gradient-bg {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+    top: 0;
+    left: 0;
+}
+
+.gradient-bg>.gradients-container {
+    filter: url(#goo) blur(40px);
+    width: 100%;
+    height: 100%;
+}
+
+.gradient-bg>svg {
+    display: none;
+}
+
+
+.gradients-container>.g1 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+
+    transform-origin: center center;
+    animation: moveVertical 30s ease infinite;
+
+    opacity: 1;
+}
+
+.gradients-container>.g2 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 20s reverse infinite;
+
+    opacity: 1;
+}
+
+.gradients-container>.g3 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 500px);
+
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 40s linear infinite;
+
+    opacity: 1;
+}
+
+.gradients-container>.g4 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 40s ease infinite;
+
+    opacity: 0.7;
+}
+
+.gradients-container>.g5 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: calc(var(--circle-size) * 2);
+    height: calc(var(--circle-size) * 2);
+    top: calc(50% - var(--circle-size));
+    left: calc(50% - var(--circle-size));
+
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 20s ease infinite;
+
+    opacity: 1;
+}
+
+.gradients-container>.interactive {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+
+    width: 100%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+
+    opacity: 0.7;
+}
+
+.main {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 5;
 }
 
 .home-btn {
+    all: unset;
     position: absolute;
-    top: 80px;
-    left: 80px;
-    font-size: 1.5em;
-    color: #333;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
+    top: 12%;
+    left: 9%;
+    font-size: 1.3rem;
+    font-family: 'Prompt', sans-serif;
+    letter-spacing: 0px;
+    text-decoration: underline;
+    color: rgb(90,87,80);
+    font-weight: 700;
+}
+
+.main-name {
+    position: absolute;
+    top: 24%;
+    left: 9%;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6.5rem;
+    text-transform: uppercase;
+    color: rgb(83,78,67);
+    line-height: 95px;
+}
+
+.main-name > span {
+    display: block;
+    position: relative;
+}
+
+.main-name > span > span {
+    font-size: 4rem;
+    position: absolute;
+    top: -20px;
+}
+
+.inline {
+    display: inline;
+}
+
+.main-se {
+    position: absolute;
+    right: 8%;
+    bottom: 10%;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6.5rem;
+    text-transform: uppercase;
+    color: rgb(83,78,67);
+    line-height: 95px;
+    text-align: end;
+}
+
+.main-se > span {
+    display: block;
+    position: relative;
+}
+
+.main-se > span > span {
+    font-size: 4rem;
+    position: absolute;
+    top: -20px;
+    left: 0;
 }
