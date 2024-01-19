@@ -5,20 +5,38 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-parcel": "parcel index.html",
+    "start": "parcel index.html",
     "build": "parcel build index.html",
-    "clean": "rm -rf .parcel-cache dist",
-    "watch-css": "npx tailwindcss -i ./css/styles.css -o ./css/output.css --watch",
-    "start": "npm-run-all --parallel start-parcel"
+    "clean": "rm -rf .parcel-cache dist"
   },
   "author": "Rizul Bhardwaj",
   "license": "ISC",
   "dependencies": {
-    "gsap": "^3.12.4"
+    "@pmndrs/assets": "1.6.0",
+    "@react-three/drei": "9.96.0",
+    "@react-three/fiber": "8.15.12",
+    "@react-three/postprocessing": "2.15.11",
+    "@types/three": "0.158.3",
+    "gsap": "^3.12.4",
+    "lazy-line-painter": "^2.0.3",
+    "random-words": "2.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "5.0.1",
+    "three": "0.159.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-react": "^7.23.3",
     "npm-run-all": "^4.1.5",
     "parcel": "^2.11.0",
-    "postcss": "^8.4.33"
-  }
+    "postcss": "^8.4.33",
+    "process": "^0.11.10"
+  },
+  "browserslist": [
+    ">1%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
