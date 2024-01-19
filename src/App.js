@@ -18,7 +18,7 @@ import { Image, Environment, ScrollControls, useScroll, useTexture } from '@reac
 import { easing } from 'maath'
 
 export const App = () => (
-  <Canvas camera={{ position: [0, 0, 100], fov: 8 }}>
+  <Canvas camera={{ position: [0, 0, 100], fov: .9 }}>
     <fog attach="fog" args={['#a79', 8.5, 1]} />
     {/* <ScrollControls pages={4} infinite> */}
     <Scene position={[0, 0, 0]} rotation={[0, 0, 0]} />
@@ -31,11 +31,17 @@ export const App = () => (
 function Scene({ children, radius = 1.4, ...props }) {
   const ref = useRef();
   const [scrollY, setScrollY] = useState(0);
-  const [hovered, hover] = useState(null)
+  const rotationVelocity = useRef(0);
+  const prevScrollY = useRef(window.scrollY); // Initialize with the current scroll position
+  const [hovered, setHovered] = useState(null); // Renamed hover to setHovered for clarity
+
+  // Define the easing factor here
+  const easingFactor = 0.9;
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      const newScrollY = window.scrollY;
+      setScrollY(newScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -45,42 +51,52 @@ function Scene({ children, radius = 1.4, ...props }) {
   }, []);
 
   useFrame((state, delta) => {
-    if (ref.current) {
-      // Use scrollY to determine rotation
-      const rotationY = (scrollY / window.innerHeight) * Math.PI;
-      ref.current.rotation.y = -rotationY / 5;
+    // Calculate the scroll difference since the last frame
+    const scrollDiff = scrollY - prevScrollY.current;
+    prevScrollY.current = scrollY; // Update the previous scroll position
 
-      // Optional: Update camera and other elements as needed
-      state.events.update();
-      easing.damp3(
-        state.camera.position,
-        [-state.pointer.x * 0, state.pointer.y * 0, 12],
-        0.3,
-        delta
-      );
-      state.camera.lookAt(0, 0, 0);
+    // Update the rotation velocity based on the scroll difference
+    rotationVelocity.current += scrollDiff * 0.01; // The 0.01 factor can be adjusted
+
+    // Apply the easing to the rotation velocity
+    rotationVelocity.current *= easingFactor;
+
+    // Update the rotation based on the rotation velocity
+    if (ref.current) {
+      ref.current.rotation.y += rotationVelocity.current * delta;
     }
-  })
+
+    // If the rotation velocity is below a small threshold, stop the rotation
+    if (Math.abs(rotationVelocity.current) < 0.0001) {
+      rotationVelocity.current = 0;
+    }
+
+    // Keep the camera looking at the center of the scene
+    state.camera.lookAt(0, 0, 0);
+  });
+
+  // Render the cards with the correct hovered state
   return (
     <group ref={ref} {...props}>
       {Array.from({ length: 8 }, (_, i) => {
-        const angle = (i / 8) * Math.PI * 2
+        const angle = (i / 8) * Math.PI * 2;
         return (
           <Card
             key={angle}
-            onPointerOver={(e) => (e.stopPropagation(), hover(i))}
-            onPointerOut={() => hover(null)}
+            onPointerOver={(e) => (e.stopPropagation(), setHovered(i))}
+            onPointerOut={() => setHovered(null)}
             position={[Math.sin(angle) * radius, 0, Math.cos(angle) * radius]}
             rotation={[0, Math.PI + angle, 0]}
             active={hovered !== null}
             hovered={hovered === i}
             url={images[`img${Math.floor(i % 10) + 1}`]}
           />
-        )
+        );
       })}
     </group>
-  )
+  );
 }
+
 
 function Banner(props) {
   const ref = useRef()

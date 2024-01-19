@@ -396,3 +396,42 @@ canvas {
     line-height: 93px;
     pointer-events: none;
 }
+
+.main-menu--btn {
+    width: 20px;
+    height: 2px;
+    position: fixed;
+    right: 8%;
+    top: 50px;
+    background: var(--color);
+    transition: all .3s ease-out;
+}
+
+.main-menu--btn::after {
+    content: "";
+    width: 40px;
+    height: 2px;
+    position: fixed;
+    right: 8%;
+    top: 60px;
+    background: var(--color);
+}
+
+.menu-container {
+    position: fixed;
+    right: 8%;
+    top: 35px;
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+}
+
+.menu-container:hover .main-menu--btn {
+    width: 40px;
+
+}
+
+.menu-container:hover {
+    cursor: pointer;
+}
