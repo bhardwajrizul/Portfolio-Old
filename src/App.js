@@ -19,7 +19,9 @@ import { easing } from 'maath'
 import { projects } from './projects';
 
 export const App = () => {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const [hovered, setHovered] = useState(null);
+  
   useEffect(() => {
     const canvas = document.querySelector("canvas");
     if (canvas) {
@@ -31,9 +33,9 @@ export const App = () => {
 
   return (
     <>
-      <Canvas camera={{ position: [0, 0, 10], fov: 10 }}>
-        <fog attach="fog" args={['#a79', 8.5, 20]} />
-        <Scene setHover={setHovered} setName={setName} position={[0, 0, 0]} rotation={[0, 0, 0.06]} />
+      <Canvas camera={{ position: [0, 0, isMobile ? 15 : 10], fov: 10 }}>
+        <fog attach="fog" args={['#a79', 8.5, 50]} />
+        <Scene setHover={setHovered} setName={setName} position={[0, 0, 0]} rotation={[0, 0, isMobile ? 0.1 : 0.06]} />
         <Banner position={[0, -0.15, 0]} />
       </Canvas>
       <h1 className='proj-hov-name'>{name}</h1>
@@ -48,6 +50,8 @@ function Scene({ children, radius = 1.4, ...props }) {
   const rotationVelocity = useRef(0);
   const prevScrollY = useRef(window.scrollY); // Initialize with the current scroll position
   const [hovered, setHovered] = useState(null); // Renamed hover to setHovered for clarity
+  
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   // Define the easing factor here
   const easingFactor = 0.9;
@@ -86,6 +90,37 @@ function Scene({ children, radius = 1.4, ...props }) {
 
     // Keep the camera looking at the center of the scene
     state.camera.lookAt(0, 0, 0);
+
+    if (isMobile) {
+      let minAngle = Math.PI; // Initialize with max angle (180 degrees)
+      let closestCardIndex = -1;
+      
+      ref.current.children.forEach((child, index) => {
+        const cardPosition = new THREE.Vector3().setFromMatrixPosition(child.matrixWorld);
+        const direction = cardPosition.sub(state.camera.position).normalize();
+        const angle = direction.angleTo(state.camera.getWorldDirection(new THREE.Vector3()));
+
+        // Find the minimum angle which would be the card most directly in front
+        if (angle < minAngle) {
+          minAngle = angle;
+          closestCardIndex = index;
+        }
+      });
+
+      if (closestCardIndex !== -1 && minAngle < Math.PI / 6) { // Threshold angle: 30 degrees
+        // The card is in front of the camera
+        closestCardIndex += (projects.length / 2); // <----- SHOWS BACK CARD INDEX, WE NEED FRONT
+        closestCardIndex %= projects.length;
+        const projectName = projects[closestCardIndex].name;
+        props.setName(projectName); // Display the name
+        props.setHover(true);
+      } else {
+        // No card is directly in front of the camera
+        props.setName('');
+        props.setHover(false);
+      }
+    }
+
   });
 
 

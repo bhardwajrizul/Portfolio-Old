@@ -248,7 +248,10 @@ body {
     height: 100vh;
     z-index: 5;
     transition: opacity .2s ease-in;
+    opacity: 0;
 }
+
+
 
 .home-btn {
     all: unset;
@@ -326,6 +329,7 @@ body {
     width: 100%;
     height: 100vh;
     transition: opacity .2s ease-in;
+    opacity: 0;
 }
 
 .about-me>.about-me--desc {
@@ -415,7 +419,7 @@ canvas {
 
 .ws {
     width: 100%;
-    height: 4000px;
+    height: 2500px;
 }
 
 .projects-heading {
@@ -604,7 +608,6 @@ canvas {
     left: 50%;
     bottom: 50px;
     animation: rotate 20s linear 0s infinite;
-    
   }
   
   
@@ -615,6 +618,7 @@ canvas {
     transform: translate(-30%, -50%) scale(1.5);
     opacity: 80%;
     color: var(--color);
+
   }
 
   .rotating-text {
@@ -624,6 +628,70 @@ canvas {
     font-weight: 900;
   }
   
-  .rotating-text {
-    text-decoration: underline;
-  }
+
+  @media (max-width: 768px) {
+    body {
+        overflow-x: hidden !important;
+        width: 100vw !important;
+    }
+    .container-circle {
+        width: 100vw !important;
+    }
+    .main {
+        width: 100vw !important;
+    }
+    .about-me {
+        width: 100vw !important;
+    }
+    .about-me--desc {
+        font-size: 1.3rem !important;
+        left: 3% !important;
+        bottom: 30% !important;
+    }
+    .about-me--pers {
+        font-size: 1.3rem;
+        right: 3%;
+    } 
+    .main-name {
+        font-size: 4rem;
+        line-height: 60px;    
+    }
+    .main-name > span > span {
+        font-size: 2rem;
+        transform: translateY(10px);
+    }
+
+    .main-se {
+        font-size: 4rem;
+        line-height: 60px;
+        bottom: 30%;
+    }
+    .main-se > span > span {
+        font-size: 2rem;
+        transform: translateY(10px);
+    }
+    .projects-heading {
+        font-size: 5rem;
+        display: inline-block;
+    }
+    canvas {
+        transform: unset;
+    }
+    .proj-hov-name {
+        font-size: 4rem;
+        bottom: 148px;
+        line-height: 50px;
+    }
+    .ct-btn {
+        margin-left: 0;
+    }
+    .ct-svgs a:first-child {
+        margin-left: 0;
+    }
+    .crt {
+        margin-right: 0;
+    }
+    .ws {
+        height: 3500px;
+    }
+}

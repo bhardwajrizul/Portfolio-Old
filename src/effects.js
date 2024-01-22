@@ -1,7 +1,10 @@
-// Function to be called when the intersection changes
+window.addEventListener('DOMContentLoaded', (e) => {
+  let aboutSec = document.getElementById('about');
+  aboutSec.style.opacity = 0
+})
+
 function handleIntersection(entries, observer) {
     entries.forEach(entry => {
-      // Each entry describes an intersection change for one observed target element
       if (entry.isIntersecting) {
         let root = document.getElementById('root');
         let headings = document.getElementById('ph');
@@ -11,8 +14,8 @@ function handleIntersection(entries, observer) {
       } else {
         let root = document.getElementById('root');
         let headings = document.getElementById('ph');
-        headings.style.opacity = '1'
         root.style.transform = 'translateY(0px)'
+        headings.style.opacity = '1'
       }
     });
   }
@@ -23,6 +26,8 @@ function handleIntersection(entries, observer) {
             console.log('about sec enter')
             let aboutSec = document.getElementById('about');
             aboutSec.style.opacity = 1
+            let main = document.getElementById('main');
+            main.style.opacity = 0;
         } else {
             let aboutSec = document.getElementById('about');
             aboutSec.style.opacity = 0;
