@@ -17,6 +17,7 @@
     "@react-three/fiber": "8.15.12",
     "@react-three/postprocessing": "2.15.11",
     "@types/three": "0.158.3",
+    "easy-scroll": "^0.4.3",
     "gsap": "^3.12.4",
     "lazy-line-painter": "^2.0.3",
     "random-words": "2.0.0",

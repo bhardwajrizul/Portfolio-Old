@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Prompt:wght@400;500;600;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-/* 
-font-family: 'Anton', sans-serif;
-font-family: 'Bebas Neue', sans-serif;
-font-family: 'Prompt', sans-serif; // 500 600 700 900
-font-family: 'Schibsted Grotesk', sans-serif; // 400 500 600 700 800 900
-font-family: 'Space Grotesk', sans-serif; // 300, 400, 500, 600, 700
-*/
+    /* font-family: 'Anton', sans-serif; */
+    /* font-family: 'Bebas Neue', sans-serif; */
+    /* // 500 600 700 900 */
+    /* font-family: 'Prompt', sans-serif;  */
+    /* // 400 500 600 700 800 900 */
+    /* // 300, 400, 500, 600, 700 */
+    /* font-family: 'Space Grotesk', sans-serif; */
 
 *,
 *::before,
@@ -64,15 +64,20 @@ font-family: 'Space Grotesk', sans-serif; // 300, 400, 500, 600, 700
 :root {
     --color-bg1: rgb(235, 229, 215);
     --color-bg2: rgb(227, 118, 100);
-    --color1: 222, 128, 110;
+    --color1: 227, 160, 147;
     --color2: 235, 229, 215;
-    --color3: 183, 199, 204;
+    --color3: 163, 175, 179;
     --color4: 226, 160, 117;
     --color5: 227, 118, 100;
     --color-interactive: 255, 128, 100;
     --circle-size: 80%;
     --blending: hard-light;
-    --color: rgb(83, 78, 67);
+    --color: rgb(90, 87, 80);
+}
+
+::selection {
+    background-color: #000;
+    color: #fff;
 }
 
 .root {
@@ -88,7 +93,7 @@ body {
     overflow-x: hidden;
     color: #333;
     scroll-behavior: smooth;
-/*     
+    /*     
     cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxMCIgZmlsbD0iI0U4QjA1OSIvPjwvc3ZnPg=='),
     auto;
  */
@@ -104,7 +109,7 @@ body {
 }
 
 .overlays {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -236,10 +241,13 @@ body {
 }
 
 .main {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100vh;
     z-index: 5;
+    transition: opacity .2s ease-in;
 }
 
 .home-btn {
@@ -266,6 +274,7 @@ body {
 
     line-height: 93px;
     pointer-events: none;
+    opacity: 90%;
 }
 
 .main-name>span {
@@ -294,6 +303,7 @@ body {
     line-height: 93px;
     text-align: end;
     pointer-events: none;
+    opacity: 90%;
 }
 
 .main-se>span {
@@ -309,19 +319,22 @@ body {
 }
 
 .about-me {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 2;
     width: 100%;
     height: 100vh;
+    transition: opacity .2s ease-in;
 }
 
 .about-me>.about-me--desc {
     position: absolute;
     left: 9%;
-    bottom: 24%;
+    bottom: 13%;
     font-family: 'Space Grotesk', sans-serif;
 
-    font-size: 2rem;
+    font-size: 1.9rem;
     color: var(--color);
     text-align: start;
     pointer-events: none;
@@ -332,9 +345,29 @@ body {
     word-spacing: 0px;
 }
 
-.about-me>.about-me--desc > span {
+.about-me>.about-me--desc>span {
     display: block;
     position: relative;
+}
+
+.about-me--pers {
+    font-family: 'Space Grotesk', sans-serif;
+    position: absolute;
+    right: 8%;
+    top: 24%;
+    color: var(--color);
+    font-size: 1.8rem;
+    line-height: 1.5;
+    word-spacing: 0px;
+    font-weight: 900;
+    text-align: right;
+    letter-spacing: -2px;
+    text-wrap: nowrap;
+
+}
+
+.about-me--pers > span {
+    display: block;
 }
 
 .work {
@@ -357,13 +390,13 @@ body {
 }
 
 .project-link {
- border: 1px solid #000;
+    border: 1px solid #000;
 }
 
 .project-link img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: cover;
     object-position: center;
 }
 
@@ -372,39 +405,44 @@ body {
     height: 100vh;
     position: sticky;
     top: 0px;
+    z-index: 10;
+    transition: transform 1s ease-out;
 }
 
 canvas {
-    transform: rotate(-10deg);
+    transform: rotate(-7deg);
 }
 
 .ws {
     width: 100%;
-    height: 2000px;
+    height: 4000px;
 }
 
 .projects-heading {
-    position: relative;
+    position: sticky;
     top: 0%;
-    left: 9%;
-    /* transform: translateY(200%); */
+    /* left: 9%; */
+    transform: translate(10%, 70%);
     font-family: 'Bebas Neue', sans-serif;
     font-size: 6.5rem;
     text-transform: uppercase;
     color: var(--color);
-
+    z-index: 12;
     line-height: 93px;
     pointer-events: none;
+    opacity: 90%;
+    transition: opacity .3s ease-out;
 }
 
 .main-menu--btn {
     width: 20px;
     height: 2px;
     position: fixed;
-    right: 8%;
-    top: 50px;
+    right: 100px;
+    top: 70px;
     background: var(--color);
     transition: all .3s ease-out;
+    will-change: width;
 }
 
 .main-menu--btn::after {
@@ -412,18 +450,17 @@ canvas {
     width: 40px;
     height: 2px;
     position: fixed;
-    right: 8%;
-    top: 60px;
+    right: 100px;
+    top: 80px;
     background: var(--color);
 }
 
 .menu-container {
     position: fixed;
-    right: 8%;
-    top: 35px;
-    background-color: red;
-    width: 40px;
-    height: 40px;
+    right: 97px;
+    top: 45px;
+    width: 45px;
+    height: 45px;
     border-radius: 100px;
 }
 
@@ -435,3 +472,158 @@ canvas {
 .menu-container:hover {
     cursor: pointer;
 }
+
+.cm-cont {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.cm-cont svg {
+    width: 1.5rem;
+    margin-right: .8rem;
+    fill: var(--color);
+    transition: transform .1s linear;
+    cursor: pointer;
+}
+
+.ct-svgs a {
+    display: inline-block;
+}
+
+.ct-svgs a:first-child {
+    margin-left: 6rem;
+}
+
+
+.cm-cont svg:hover {
+    transform: scale(.9);
+}
+
+.cm-cont > a:first-child {
+    margin-left: 6rem;
+}
+
+.crt {
+    margin: 0 6rem 0 auto;
+    color: var(--color);
+    font-family: 'Space Grotesk', sans-serif;
+    text-align: end;
+
+}
+
+.crt-name {
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: -1.8px; 
+    word-spacing: 1.3px;
+}
+
+.crt-quote {
+    color: hsla(0, 0%, 100%, 0.65);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.ct-cont {
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-btn {
+    all: unset;
+    font-size: 1.3rem;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0px;
+    text-decoration: none;
+    color: var(--color);
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-decoration: underline;
+    margin-left: 6rem;
+}
+
+.rotate {
+    animation: rotate 1s linear 0s infinite;
+}
+
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+.proj-hov-name {
+    position: absolute;
+    z-index: 5;
+    bottom: 12px;
+    right: 9%;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6.5rem;
+    text-transform: uppercase;
+    color: var(--color);
+    line-height: 93px;
+    text-align: end;
+    pointer-events: none;
+    opacity: 90%;
+}
+
+#ht-about-me {
+    width: 100%;
+    height: 30vh;
+    position: relative;
+    top: 0px;
+    margin-bottom: 10vh;
+}
+
+
+#ht-main {
+    position: relative;
+    width: 100%;
+    height: 20vh;
+    margin-bottom: 100vh;
+    margin-top: 50px;
+}
+
+
+.container-circle {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .circle-circle {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    animation: rotate 20s linear 0s infinite;
+    
+  }
+  
+  
+  .d-arr {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translate(-30%, -50%) scale(1.5);
+    opacity: 80%;
+    color: var(--color);
+  }
+
+  .rotating-text {
+    font-family: 'Anton', sans-serif;
+    color: var(--color);
+    opacity: 80%;
+    font-weight: 900;
+  }
+  
+  .rotating-text {
+    text-decoration: underline;
+  }

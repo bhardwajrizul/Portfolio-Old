@@ -16,17 +16,31 @@ import { useRef, useState, useEffect } from 'react'
 import { Canvas, extend, useFrame } from '@react-three/fiber'
 import { Image, Environment, ScrollControls, useScroll, useTexture } from '@react-three/drei'
 import { easing } from 'maath'
+import { projects } from './projects';
 
-export const App = () => (
-  <Canvas camera={{ position: [0, 0, 100], fov: .9 }}>
-    <fog attach="fog" args={['#a79', 8.5, 1]} />
-    {/* <ScrollControls pages={4} infinite> */}
-    <Scene position={[0, 0, 0]} rotation={[0, 0, 0]} />
-    <Banner position={[0, -0.15, 0]} />
-    {/* </ScrollControls> */}
-    {/* <Environment preset="dawn" background blur={0.5} /> */}
-  </Canvas>
-)
+export const App = () => {
+  const [hovered, setHovered] = useState(null);
+  useEffect(() => {
+    const canvas = document.querySelector("canvas");
+    if (canvas) {
+      canvas.style.cursor = hovered ? "pointer" : "default";
+    }
+  }, [hovered]);
+
+  let [name, setName] = useState(''); // Declare variable here, outside of the return statement
+
+  return (
+    <>
+      <Canvas camera={{ position: [0, 0, 10], fov: 10 }}>
+        <fog attach="fog" args={['#a79', 8.5, 20]} />
+        <Scene setHover={setHovered} setName={setName} position={[0, 0, 0]} rotation={[0, 0, 0.06]} />
+        <Banner position={[0, -0.15, 0]} />
+      </Canvas>
+      <h1 className='proj-hov-name'>{name}</h1>
+    </>
+  );
+};
+
 
 function Scene({ children, radius = 1.4, ...props }) {
   const ref = useRef();
@@ -46,7 +60,6 @@ function Scene({ children, radius = 1.4, ...props }) {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Remove the event listener when the component unmounts
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -75,6 +88,39 @@ function Scene({ children, radius = 1.4, ...props }) {
     state.camera.lookAt(0, 0, 0);
   });
 
+
+  // function to log card index on click
+
+  const handleCardClick = (index, event) => {
+    // The event.intersections array contains all intersected objects, sorted by distance
+    // The first object is the one that's closest to the camera
+    const firstIntersectedObject = event.intersections[0].object;
+
+    // Check if the clicked object is indeed the first intersected object
+    if (firstIntersectedObject === event.eventObject) {
+      console.log("Card index clicked:", index);
+      window.location.href = projects[index].link;
+    }
+  };
+
+  const handleCardLeave = () => {
+    props.setHover(null);
+    props.setName("")
+  }
+
+  const handleCardHovered = (index, event) => {
+    // The event.intersections array contains all intersected objects, sorted by distance
+    // The first object is the one that's closest to the camera
+    const firstIntersectedObject = event.intersections[0].object;
+
+    // Check if the clicked object is indeed the first intersected object
+    if (firstIntersectedObject === event.eventObject) {
+      // console.log("Card index hovered:", index);
+      props.setName(projects[index].name)
+      props.setHover(true);
+    }
+  };
+
   // Render the cards with the correct hovered state
   return (
     <group ref={ref} {...props}>
@@ -83,8 +129,9 @@ function Scene({ children, radius = 1.4, ...props }) {
         return (
           <Card
             key={angle}
-            onPointerOver={(e) => (e.stopPropagation(), setHovered(i))}
-            onPointerOut={() => setHovered(null)}
+            onPointerOver={(e) => (e.stopPropagation(), setHovered(i), handleCardHovered(i, e))}
+            onPointerOut={() => (setHovered(null), handleCardLeave())}
+            onClick={(e) => handleCardClick(i, e)} // Add onClick event to Card
             position={[Math.sin(angle) * radius, 0, Math.cos(angle) * radius]}
             rotation={[0, Math.PI + angle, 0]}
             active={hovered !== null}
