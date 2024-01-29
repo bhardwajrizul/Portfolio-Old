@@ -62,17 +62,16 @@
 }
 
 :root {
-    --color-bg1: rgb(235, 229, 215);
-    --color-bg2: rgb(227, 118, 100);
-    --color1: 227, 160, 147;
-    --color2: 235, 229, 215;
-    --color3: 163, 175, 179;
-    --color4: 226, 160, 117;
-    --color5: 227, 118, 100;
-    --color-interactive: 255, 128, 100;
+    --color-bg1: rgb(255, 170, 0);
+    --color-bg2: rgb(255, 38, 0);
+    --color1: 255, 214, 48;
+    --color2: 255, 0, 0;
+    --color3: 255, 191, 255;
+    --color4: 255, 0, 195;
+    --color5: 255, 255, 170;
+    --color-interactive: 255, 255, 255;
     --circle-size: 80%;
     --blending: hard-light;
-    --color: rgb(90, 87, 80);
 }
 
 ::selection {
@@ -125,8 +124,55 @@ body {
     height: 100vh;
     border-left: 1.2px solid rgb(188, 169, 158);
 }
+:root {
+    --color-bg1: rgb(108, 0, 162);
+    --color-bg2: rgb(0, 17, 82);
+    --color1: 18, 113, 255;
+    --color2: 221, 74, 255;
+    --color3: 100, 220, 255;
+    --color4: 200, 50, 50;
+    --color5: 180, 180, 50;
+    --color-interactive: 140, 100, 255;
+    --circle-size: 80%;
+    --blending: hard-light;
+    --color: rgb(255, 255, 255);
 
-.gradient-bg {
+  }
+  
+  @keyframes moveInCircle {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes moveVertical {
+    0% {
+      transform: translateY(-50%);
+    }
+    50% {
+      transform: translateY(50%);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+  @keyframes moveHorizontal {
+    0% {
+      transform: translateX(-50%) translateY(-10%);
+    }
+    50% {
+      transform: translateX(50%) translateY(10%);
+    }
+    100% {
+      transform: translateX(-50%) translateY(-10%);
+    }
+  }
+  .gradient-bg {
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -134,111 +180,86 @@ body {
     background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
     top: 0;
     left: 0;
-}
-
-.gradient-bg>.gradients-container {
+  }
+  .gradient-bg svg {
+    display: none;
+  }
+  .gradient-bg .gradients-container {
     filter: url(#goo) blur(40px);
     width: 100%;
     height: 100%;
-}
-
-.gradient-bg>svg {
-    display: none;
-}
-
-
-.gradients-container>.g1 {
+  }
+  .gradient-bg .g1 {
     position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
     mix-blend-mode: var(--blending);
-
     width: var(--circle-size);
     height: var(--circle-size);
     top: calc(50% - var(--circle-size) / 2);
     left: calc(50% - var(--circle-size) / 2);
-
     transform-origin: center center;
     animation: moveVertical 30s ease infinite;
-
     opacity: 1;
-}
-
-.gradients-container>.g2 {
+  }
+  .gradient-bg .g2 {
     position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
     mix-blend-mode: var(--blending);
-
     width: var(--circle-size);
     height: var(--circle-size);
     top: calc(50% - var(--circle-size) / 2);
     left: calc(50% - var(--circle-size) / 2);
-
     transform-origin: calc(50% - 400px);
     animation: moveInCircle 20s reverse infinite;
-
     opacity: 1;
-}
-
-.gradients-container>.g3 {
+  }
+  .gradient-bg .g3 {
     position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
     mix-blend-mode: var(--blending);
-
     width: var(--circle-size);
     height: var(--circle-size);
     top: calc(50% - var(--circle-size) / 2 + 200px);
     left: calc(50% - var(--circle-size) / 2 - 500px);
-
     transform-origin: calc(50% + 400px);
     animation: moveInCircle 40s linear infinite;
-
     opacity: 1;
-}
-
-.gradients-container>.g4 {
+  }
+  .gradient-bg .g4 {
     position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
     mix-blend-mode: var(--blending);
-
     width: var(--circle-size);
     height: var(--circle-size);
     top: calc(50% - var(--circle-size) / 2);
     left: calc(50% - var(--circle-size) / 2);
-
     transform-origin: calc(50% - 200px);
     animation: moveHorizontal 40s ease infinite;
-
     opacity: 0.7;
-}
-
-.gradients-container>.g5 {
+  }
+  .gradient-bg .g5 {
     position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
     mix-blend-mode: var(--blending);
-
     width: calc(var(--circle-size) * 2);
     height: calc(var(--circle-size) * 2);
     top: calc(50% - var(--circle-size));
     left: calc(50% - var(--circle-size));
-
     transform-origin: calc(50% - 800px) calc(50% + 200px);
     animation: moveInCircle 20s ease infinite;
-
     opacity: 1;
-}
-
-.gradients-container>.interactive {
+  }
+  .gradient-bg .interactive {
     position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
     mix-blend-mode: var(--blending);
-
     width: 100%;
     height: 100%;
     top: -50%;
     left: -50%;
-
     opacity: 0.7;
-}
+  }
+
 
 .main {
     position: fixed;
@@ -277,7 +298,7 @@ body {
 
     line-height: 93px;
     pointer-events: none;
-    opacity: 90%;
+    opacity: 70%;
 }
 
 .main-name>span {
@@ -306,7 +327,7 @@ body {
     line-height: 93px;
     text-align: end;
     pointer-events: none;
-    opacity: 90%;
+    opacity: 70%;
 }
 
 .main-se>span {
@@ -347,6 +368,8 @@ body {
     letter-spacing: -2px;
     text-wrap: nowrap;
     word-spacing: 0px;
+    opacity: 80%;
+
 }
 
 .about-me>.about-me--desc>span {
@@ -367,6 +390,7 @@ body {
     text-align: right;
     letter-spacing: -2px;
     text-wrap: nowrap;
+    opacity: 80%;
 
 }
 
@@ -434,7 +458,7 @@ canvas {
     z-index: 12;
     line-height: 93px;
     pointer-events: none;
-    opacity: 90%;
+    opacity: 80%;
     transition: opacity .3s ease-out;
 }
 
@@ -576,7 +600,7 @@ canvas {
     line-height: 93px;
     text-align: end;
     pointer-events: none;
-    opacity: 90%;
+    opacity: 70%;
 }
 
 #ht-about-me {
@@ -673,6 +697,7 @@ canvas {
     .projects-heading {
         font-size: 5rem;
         display: inline-block;
+        opacity: 70%;
     }
     canvas {
         transform: unset;

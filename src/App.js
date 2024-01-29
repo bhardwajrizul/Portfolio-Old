@@ -29,7 +29,7 @@ export const App = () => {
     }
   }, [hovered]);
 
-  let [name, setName] = useState(''); // Declare variable here, outside of the return statement
+  let [name, setName] = useState(''); 
 
   return (
     <>
@@ -48,12 +48,13 @@ function Scene({ children, radius = 1.4, ...props }) {
   const ref = useRef();
   const [scrollY, setScrollY] = useState(0);
   const rotationVelocity = useRef(0);
-  const prevScrollY = useRef(window.scrollY); // Initialize with the current scroll position
-  const [hovered, setHovered] = useState(null); // Renamed hover to setHovered for clarity
+  // initialize with the current scroll position
+  const prevScrollY = useRef(window.scrollY); 
+  const [hovered, setHovered] = useState(null); 
   
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  // Define the easing factor here
+  // define the easing factor
   const easingFactor = 0.9;
 
   useEffect(() => {
@@ -68,31 +69,32 @@ function Scene({ children, radius = 1.4, ...props }) {
   }, []);
 
   useFrame((state, delta) => {
-    // Calculate the scroll difference since the last frame
+    // calculate the scroll difference since the last frame
     const scrollDiff = scrollY - prevScrollY.current;
-    prevScrollY.current = scrollY; // Update the previous scroll position
+    // update the previous scroll position
+    prevScrollY.current = scrollY; 
 
-    // Update the rotation velocity based on the scroll difference
-    rotationVelocity.current += scrollDiff * 0.01; // The 0.01 factor can be adjusted
+    // update the rotation velocity based on the scroll difference
+    rotationVelocity.current += scrollDiff * 0.01; // <-- Can change this
 
-    // Apply the easing to the rotation velocity
+    // apply the easing to the rotation velocity
     rotationVelocity.current *= easingFactor;
 
-    // Update the rotation based on the rotation velocity
+    // update the rotation based on the rotation velocity
     if (ref.current) {
       ref.current.rotation.y += rotationVelocity.current * delta;
     }
 
-    // If the rotation velocity is below a small threshold, stop the rotation
+    // if the rotation velocity is below a small threshold, stop the rotation
     if (Math.abs(rotationVelocity.current) < 0.0001) {
       rotationVelocity.current = 0;
     }
 
-    // Keep the camera looking at the center of the scene
+    // keep the camera looking at the center of the scene
     state.camera.lookAt(0, 0, 0);
 
     if (isMobile) {
-      let minAngle = Math.PI; // Initialize with max angle (180 degrees)
+      let minAngle = Math.PI; // initialize with max angle (180 degrees)
       let closestCardIndex = -1;
       
       ref.current.children.forEach((child, index) => {
@@ -100,22 +102,22 @@ function Scene({ children, radius = 1.4, ...props }) {
         const direction = cardPosition.sub(state.camera.position).normalize();
         const angle = direction.angleTo(state.camera.getWorldDirection(new THREE.Vector3()));
 
-        // Find the minimum angle which would be the card most directly in front
+        // find the minimum angle which would be the card most directly in front
         if (angle < minAngle) {
           minAngle = angle;
           closestCardIndex = index;
         }
       });
 
-      if (closestCardIndex !== -1 && minAngle < Math.PI / 6) { // Threshold angle: 30 degrees
-        // The card is in front of the camera
+      if (closestCardIndex !== -1 && minAngle < Math.PI / 6) { // threshold angle: 30 degrees
+        // the card is in front of the camera
         closestCardIndex += (projects.length / 2); // <----- SHOWS BACK CARD INDEX, WE NEED FRONT
         closestCardIndex %= projects.length;
         const projectName = projects[closestCardIndex].name;
         props.setName(projectName); // Display the name
         props.setHover(true);
       } else {
-        // No card is directly in front of the camera
+        // no card is directly in front of the camera
         props.setName('');
         props.setHover(false);
       }
@@ -124,16 +126,15 @@ function Scene({ children, radius = 1.4, ...props }) {
   });
 
 
-  // function to log card index on click
 
   const handleCardClick = (index, event) => {
-    // The event.intersections array contains all intersected objects, sorted by distance
-    // The first object is the one that's closest to the camera
+    // the event.intersections array contains all intersected objects (sorted by distance)
+    // the first object is the one that's closest to the camera
     const firstIntersectedObject = event.intersections[0].object;
 
-    // Check if the clicked object is indeed the first intersected object
+    // check if the clicked object is indeed the first intersected object
     if (firstIntersectedObject === event.eventObject) {
-      console.log("Card index clicked:", index);
+      // console.log("Card index clicked:", index);
       window.location.href = projects[index].link;
     }
   };
@@ -144,11 +145,8 @@ function Scene({ children, radius = 1.4, ...props }) {
   }
 
   const handleCardHovered = (index, event) => {
-    // The event.intersections array contains all intersected objects, sorted by distance
-    // The first object is the one that's closest to the camera
     const firstIntersectedObject = event.intersections[0].object;
 
-    // Check if the clicked object is indeed the first intersected object
     if (firstIntersectedObject === event.eventObject) {
       // console.log("Card index hovered:", index);
       props.setName(projects[index].name)
@@ -156,7 +154,7 @@ function Scene({ children, radius = 1.4, ...props }) {
     }
   };
 
-  // Render the cards with the correct hovered state
+  // render the cards with the correct hovered state
   return (
     <group ref={ref} {...props}>
       {Array.from({ length: 8 }, (_, i) => {
@@ -166,7 +164,7 @@ function Scene({ children, radius = 1.4, ...props }) {
             key={angle}
             onPointerOver={(e) => (e.stopPropagation(), setHovered(i), handleCardHovered(i, e))}
             onPointerOut={() => (setHovered(null), handleCardLeave())}
-            onClick={(e) => handleCardClick(i, e)} // Add onClick event to Card
+            onClick={(e) => handleCardClick(i, e)} 
             position={[Math.sin(angle) * radius, 0, Math.cos(angle) * radius]}
             rotation={[0, Math.PI + angle, 0]}
             active={hovered !== null}

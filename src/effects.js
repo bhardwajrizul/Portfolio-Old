@@ -87,4 +87,40 @@ const rotate = new CircleType(text).radius(50)
 const rotate2 = new CircleType(text2).radius(50)
 
 
-  
+  // ----------------------------------------------- EFFECTS 2---------------------------/
+  function getVisiblePercentage(elem) {
+    const rect = elem.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    // Total height of the element
+    const totalHeight = rect.height;
+
+    // Check if the element is out of view
+    if (rect.bottom < 0 || rect.top > windowHeight) {
+        return 0; // The element is not visible
+    }
+
+    // Calculate the visible part
+    const visibleTop = Math.max(0, rect.top);
+    const visibleBottom = Math.min(rect.bottom, windowHeight);
+
+    const visibleHeight = visibleBottom - visibleTop;
+
+    // Calculate the percentage of the element that is visible
+    return (visibleHeight / totalHeight) * 100; // Returns the visible percentage of the element
+}
+
+// Usage
+window.addEventListener('scroll', () => {
+    const myElement = document.getElementById('ht-main');
+    const aboutSecHt = document.getElementById('ht-about-me')
+    const visiblePercentage = getVisiblePercentage(myElement);
+    const vPaboutMe = getVisiblePercentage(aboutSecHt);
+
+    // console.log('Visible percentage:', visiblePercentage);
+    let main = document.getElementById('main');
+    let aboutSec = document.getElementById('about');
+    main.style.transform = `translateY(-${100 - visiblePercentage}px)`;
+    main.style.opacity = `${visiblePercentage}%`
+    aboutSec.style.transform = `translateY(${100 - vPaboutMe}px)`;
+});
